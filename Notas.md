@@ -41,3 +41,8 @@ Ejecutar fast api desde nuestra nueva arquitectura de carpetas
 ```shell
 fastapi dev app/main.py
 ```
+
+Para realizar migraciones, es decir modificar la base de datos sin borrar lo que ya esta guardado, se usa alembic
+```shell
+alembic revision --autogenerate -m "Initial migration"
+```

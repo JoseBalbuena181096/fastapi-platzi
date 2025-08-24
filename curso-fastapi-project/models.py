@@ -1,11 +1,16 @@
+from enum import Enum
 from pydantic import BaseModel, EmailStr
 from sqlmodel import SQLModel, Field, Relationship
 
-    
+class StausEmum(Enum):
+    ACTIVE = "active"
+    INACTIVE = "inactive"
+
 class CustomerPlan(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     plan_id: int = Field(default=None, foreign_key="plan.id")
     customer_id: int = Field(default=None, foreign_key="customer.id")
+    status: StausEmum = Field(default=StausEmum.ACTIVE)
 
 class Plan(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)

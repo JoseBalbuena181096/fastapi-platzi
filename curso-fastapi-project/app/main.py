@@ -9,12 +9,13 @@ from models import Transaction, Invoice
 from db import SessionDep, create_all_tables
 from sqlmodel import select
 from .utils import country_timezones
-from .routers import customer, transaction, invoice
+from .routers import customer, transaction, invoice, plans
 
 app = FastAPI(lifespan=create_all_tables)
 app.include_router(customer.router)
 app.include_router(transaction.router)
 app.include_router(invoice.router)
+app.include_router(plans.router)
 
 @app.get("/time/{iso_code}")
 async def time(iso_code: str):

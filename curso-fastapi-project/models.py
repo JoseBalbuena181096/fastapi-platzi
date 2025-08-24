@@ -1,6 +1,7 @@
 from enum import Enum
-from pydantic import BaseModel, EmailStr
-from sqlmodel import SQLModel, Field, Relationship
+from pydantic import BaseModel, EmailStr, field_validator
+from sqlmodel import SQLModel, Field, Relationship, Session, select
+from db import engine
 
 class StausEmum(Enum):
     ACTIVE = "active"
@@ -27,13 +28,22 @@ class CustomerBase(SQLModel):
     description: str | None = Field(default=None)
     email: EmailStr = Field(default=None)
     age: int = Field(default=None)
+    
+    @field_validator("email")
+    @classmethod
+    def validate_email(cls, value):
+        session = Session(engine)
+        query = select(Customer).where(Customer.email == value)
+        result = session.exec(query).first()
+        if result:
+            raise ValueError("Email already registered")
+        return value
 
 class CustomerCreate(CustomerBase):
     pass
 
 class CustomerUpdate(CustomerBase):
     pass
-
 
 class Customer(CustomerBase, table=True):
     id: int | None = Field(default=None, primary_key=True)

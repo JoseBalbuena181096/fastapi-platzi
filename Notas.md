@@ -37,3 +37,7 @@ Para saber las versiones de las dependencias instaladas de sqlmodel
 ```shell
 pip freeze | Select-String sqlmodel
 ```
+Ejecutar fast api desde nuestra nueva arquitectura de carpetas
+```shell
+fastapi dev app/main.py
+```

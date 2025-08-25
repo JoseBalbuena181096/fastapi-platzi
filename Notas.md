@@ -51,3 +51,8 @@ Correr el pytest
 ```shell
 pytest app\tests\test_customers.py
 ```
+
+HTTP Basic credentials
+```shell
+from fastapi.security import HTTPBasic
+```

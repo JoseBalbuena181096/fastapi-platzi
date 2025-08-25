@@ -12,6 +12,9 @@ from .utils import country_timezones
 from .routers import customer, transaction, invoice, plans
 import time
 from fastapi import Request
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from typing import Annotated
+from fastapi import Depends
 
 
 app = FastAPI(lifespan=create_all_tables)
@@ -46,8 +49,16 @@ async def get_time_by_iso_code(iso_code: str):
         "time": datetime.datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S %Z (%z)")
     }
     
+security = HTTPBasic()
 
 @app.get("/")
-async def root():
-    return {"message": "Hello World from Jose"}
+async def root(credentials: Annotated[HTTPBasicCredentials, Depends(security)]):
+    print(credentials)
+    if credentials.username != "admin" or credentials.password != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+    return {"message": f"Hello {credentials.username}"}
 

@@ -46,3 +46,8 @@ Para realizar migraciones, es decir modificar la base de datos sin borrar lo que
 ```shell
 alembic revision --autogenerate -m "Initial migration"
 ```
+
+Correr el pytest 
+```shell
+pytest app\tests\test_customers.py
+```

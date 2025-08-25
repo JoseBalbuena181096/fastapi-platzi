@@ -51,6 +51,3 @@ async def get_time_by_iso_code(iso_code: str):
 async def root():
     return {"message": "Hello World from Jose"}
 
-
-
-
